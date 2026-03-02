@@ -23,3 +23,8 @@ Kasiyer Takibi: Sisteme tanımlı kasiyerlerin ve bağlı oldukları kasaların 
 
 Güvenli Giriş: Admin yetkilendirmesi ile market yönetim paneline güvenli erişim.
 
+⚡ Öne Çıkan Teknik Detaylar
+Dinamik Stok Uyarı Sistemi: Belirlenen kritik seviyenin altına düşen ürünler için arayüzde otomatik olarak kırmızı renkli ve yanıp sönen (blink) görsel uyarılar tetiklenir.
+
+Anlık Veri Kontrolü: Stok giriş-çıkış işlemleri sırasında veritabanı ile senkronize şekilde çalışan tetikleyiciler sayesinde depo durumu anlık güncellenir.
+

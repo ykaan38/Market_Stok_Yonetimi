@@ -1,0 +1,182 @@
+﻿@model IEnumerable<Market_Stok_Yönetimi.Model.Urun>
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <h2>Ürün Listesi</h2>
+
+    <div style="text-align:right; margin-bottom:15px;">
+        @Html.ActionLink("Yeni Ürün Ekle", "Create", "Home", null, new { @class = "btn btn-success" })
+    </div>
+
+    <div class="table-container">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Ürün Adı</th>
+                    <th>Barkod</th>
+                    <th>Fiyat</th>
+                    <th>Stok Durumu</th>
+                    <th>İşlemler</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.UrunAdi</td>
+                        <td><span class="badge badge-primary">@item.Barkod</span></td>
+                        <td class="price">@item.BirimFiyat.ToString("N2") ₺ </td>
+                        <td class="@(item.StokMiktari <= 5 ? "stok-low" : item.StokMiktari <= 15 ? "stok-medium" : "")">
+                            @item.StokMiktari adet
+                            @if (item.StokMiktari <= 5)
+                            {
+                                <i class="fas fa-exclamation-circle"></i>
+                            }
+                        </td>
+                        <td class="actions">
+                            @Html.ActionLink("Düzenle", "Edit", "Home", new { id = item.UrunID }, new { @class = "btn btn-sm btn-warning" })
+                            @using (Html.BeginForm("Delete", "Home", FormMethod.Post, new { @class = "d-inline" }))
+                            {
+                                @Html.Hidden("id", item.UrunID)
+                                <input type="submit" value="Sil" class="btn btn-sm btn-danger" onclick="return confirm('Silmek istediğinize emin misiniz?');" />
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+
+
+
+<style>
+    :root {
+        --primary-color: #ba7c00;
+        --secondary-color: #ba7c00;
+        --light-color: #E8F5E9;
+        --text-color: #333;
+        --warning-color: #FFA000;
+        --danger-color: #D32F2F;
+    }
+
+    body {
+        background-color: rgb(32, 32, 32);
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        color: var(--text-color);
+    }
+
+    .container {
+        max-width: 1200px;
+        margin: 30px auto;
+        padding: 0 15px;
+    }
+
+    h2 {
+        color: var(--secondary-color);
+        text-align: center;
+        margin-bottom: 25px;
+        font-weight: 600;
+        position: relative;
+        padding-bottom: 10px;
+    }
+
+        h2:after {
+            content: "";
+            display: block;
+            width: 80px;
+            height: 3px;
+            background: var(--primary-color);
+            margin: 10px auto 0;
+        }
+
+    .table-container {
+        background: #2D2D2D;
+        border-radius: 12px;
+        box-shadow: 0 5px 15px #ba7c00;
+        border: 1px solid #ba7c00;
+        overflow: hidden;
+        margin-bottom: 30px;
+    }
+
+    .table {
+        width: 100%;
+        margin-bottom: 0;
+        border-collapse: collapse;
+        color: white;
+    }
+
+        .table thead {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+        }
+
+        .table th {
+            padding: 15px;
+            text-align: left;
+            font-weight: 500;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 0.5px;
+        }
+
+        .table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #eee;
+            vertical-align: middle;
+        }
+
+        .table tbody tr:hover {
+            background-color: rgba(76, 175, 80, 0.1);
+            transform: scale(1.005);
+            transition: all 0.2s ease;
+        }
+
+    .stok-low {
+        color: var(--danger-color);
+        font-weight: 600;
+    }
+
+    .stok-medium {
+        color: var(--warning-color);
+    }
+
+    .price {
+        font-weight: 600;
+        color: var(--secondary-color);
+    }
+
+    .badge {
+        display: inline-block;
+        padding: 3px 8px;
+        border-radius: 4px;
+        font-size: 0.75rem;
+        font-weight: 500;
+    }
+
+    .badge-primary {
+        background-color: var(--primary-color);
+        color: white;
+    }
+
+    .actions {
+        white-space: nowrap;
+    }
+
+    .btn {
+        padding: 5px 10px;
+        border-radius: 4px;
+        font-size: 0.85rem;
+        margin-right: 5px;
+    }
+
+    .btn-sm {
+        padding: 3px 8px;
+        font-size: 0.75rem;
+    }
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">

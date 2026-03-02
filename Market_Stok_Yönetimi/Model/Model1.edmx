@@ -1,0 +1,408 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="deneme1Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Admin">
+          <Key>
+            <PropertyRef Name="AdminID" />
+          </Key>
+          <Property Name="AdminID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="KullaniciAdi" Type="varchar" MaxLength="50" />
+          <Property Name="Sifre" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Alis">
+          <Key>
+            <PropertyRef Name="AlisID" />
+          </Key>
+          <Property Name="AlisID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UrunID" Type="int" Nullable="false" />
+          <Property Name="Miktar" Type="int" Nullable="false" />
+          <Property Name="BirimFiyat" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="AlisTarihi" Type="date" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Kasa">
+          <Key>
+            <PropertyRef Name="KasaID" />
+          </Key>
+          <Property Name="KasaID" Type="int" Nullable="false" />
+          <Property Name="KasaAdi" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Kasiyer">
+          <Key>
+            <PropertyRef Name="KasiyerID" />
+          </Key>
+          <Property Name="KasiyerID" Type="int" Nullable="false" />
+          <Property Name="Ad" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Soyad" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="KasaID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Satis">
+          <Key>
+            <PropertyRef Name="SatisID" />
+          </Key>
+          <Property Name="SatisID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UrunID" Type="int" Nullable="false" />
+          <Property Name="KasiyerID" Type="int" Nullable="false" />
+          <Property Name="Miktar" Type="int" Nullable="false" />
+          <Property Name="BirimFiyat" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="SatisTarihi" Type="datetime" Nullable="false" />
+          <Property Name="KasaID" Type="int" Nullable="false" />
+          <Property Name="ToplamTutar" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Urun">
+          <Key>
+            <PropertyRef Name="UrunID" />
+          </Key>
+          <Property Name="UrunID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UrunAdi" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Barkod" Type="varchar" MaxLength="50" />
+          <Property Name="BirimFiyat" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="StokMiktari" Type="int" Nullable="false" />
+          <Property Name="KritikSeviye" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Alis_Urun">
+          <End Role="Urun" Type="Self.Urun" Multiplicity="1" />
+          <End Role="Alis" Type="Self.Alis" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Urun">
+              <PropertyRef Name="UrunID" />
+            </Principal>
+            <Dependent Role="Alis">
+              <PropertyRef Name="UrunID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Kasiyer_Kasa">
+          <End Role="Kasa" Type="Self.Kasa" Multiplicity="1" />
+          <End Role="Kasiyer" Type="Self.Kasiyer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Kasa">
+              <PropertyRef Name="KasaID" />
+            </Principal>
+            <Dependent Role="Kasiyer">
+              <PropertyRef Name="KasaID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Satis_Kasa">
+          <End Role="Kasa" Type="Self.Kasa" Multiplicity="1" />
+          <End Role="Satis" Type="Self.Satis" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Kasa">
+              <PropertyRef Name="KasaID" />
+            </Principal>
+            <Dependent Role="Satis">
+              <PropertyRef Name="KasaID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Satis_Kasiyer">
+          <End Role="Kasiyer" Type="Self.Kasiyer" Multiplicity="1" />
+          <End Role="Satis" Type="Self.Satis" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Kasiyer">
+              <PropertyRef Name="KasiyerID" />
+            </Principal>
+            <Dependent Role="Satis">
+              <PropertyRef Name="KasiyerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Satis_Urun">
+          <End Role="Urun" Type="Self.Urun" Multiplicity="1" />
+          <End Role="Satis" Type="Self.Satis" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Urun">
+              <PropertyRef Name="UrunID" />
+            </Principal>
+            <Dependent Role="Satis">
+              <PropertyRef Name="UrunID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="deneme1ModelStoreContainer">
+          <EntitySet Name="Admin" EntityType="Self.Admin" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Alis" EntityType="Self.Alis" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Kasa" EntityType="Self.Kasa" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Kasiyer" EntityType="Self.Kasiyer" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Satis" EntityType="Self.Satis" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Urun" EntityType="Self.Urun" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Alis_Urun" Association="Self.FK_Alis_Urun">
+            <End Role="Urun" EntitySet="Urun" />
+            <End Role="Alis" EntitySet="Alis" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Kasiyer_Kasa" Association="Self.FK_Kasiyer_Kasa">
+            <End Role="Kasa" EntitySet="Kasa" />
+            <End Role="Kasiyer" EntitySet="Kasiyer" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Satis_Kasa" Association="Self.FK_Satis_Kasa">
+            <End Role="Kasa" EntitySet="Kasa" />
+            <End Role="Satis" EntitySet="Satis" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Satis_Kasiyer" Association="Self.FK_Satis_Kasiyer">
+            <End Role="Kasiyer" EntitySet="Kasiyer" />
+            <End Role="Satis" EntitySet="Satis" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Satis_Urun" Association="Self.FK_Satis_Urun">
+            <End Role="Urun" EntitySet="Urun" />
+            <End Role="Satis" EntitySet="Satis" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="deneme1Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Admin">
+          <Key>
+            <PropertyRef Name="AdminID" />
+          </Key>
+          <Property Name="AdminID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="KullaniciAdi" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Sifre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Alis">
+          <Key>
+            <PropertyRef Name="AlisID" />
+          </Key>
+          <Property Name="AlisID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UrunID" Type="Int32" Nullable="false" />
+          <Property Name="Miktar" Type="Int32" Nullable="false" />
+          <Property Name="BirimFiyat" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="AlisTarihi" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="Urun" Relationship="Self.FK_Alis_Urun" FromRole="Alis" ToRole="Urun" />
+        </EntityType>
+        <EntityType Name="Kasa">
+          <Key>
+            <PropertyRef Name="KasaID" />
+          </Key>
+          <Property Name="KasaID" Type="Int32" Nullable="false" />
+          <Property Name="KasaAdi" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Kasiyer" Relationship="Self.FK_Kasiyer_Kasa" FromRole="Kasa" ToRole="Kasiyer" />
+          <NavigationProperty Name="Satis" Relationship="Self.FK_Satis_Kasa" FromRole="Kasa" ToRole="Satis" />
+        </EntityType>
+        <EntityType Name="Kasiyer">
+          <Key>
+            <PropertyRef Name="KasiyerID" />
+          </Key>
+          <Property Name="KasiyerID" Type="Int32" Nullable="false" />
+          <Property Name="Ad" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Soyad" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="KasaID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Kasa" Relationship="Self.FK_Kasiyer_Kasa" FromRole="Kasiyer" ToRole="Kasa" />
+          <NavigationProperty Name="Satis" Relationship="Self.FK_Satis_Kasiyer" FromRole="Kasiyer" ToRole="Satis" />
+        </EntityType>
+        <EntityType Name="Satis">
+          <Key>
+            <PropertyRef Name="SatisID" />
+          </Key>
+          <Property Name="SatisID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UrunID" Type="Int32" Nullable="false" />
+          <Property Name="KasiyerID" Type="Int32" Nullable="false" />
+          <Property Name="Miktar" Type="Int32" Nullable="false" />
+          <Property Name="BirimFiyat" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="SatisTarihi" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="KasaID" Type="Int32" Nullable="false" />
+          <Property Name="ToplamTutar" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+          <NavigationProperty Name="Kasa" Relationship="Self.FK_Satis_Kasa" FromRole="Satis" ToRole="Kasa" />
+          <NavigationProperty Name="Kasiyer" Relationship="Self.FK_Satis_Kasiyer" FromRole="Satis" ToRole="Kasiyer" />
+          <NavigationProperty Name="Urun" Relationship="Self.FK_Satis_Urun" FromRole="Satis" ToRole="Urun" />
+        </EntityType>
+        <EntityType Name="Urun">
+          <Key>
+            <PropertyRef Name="UrunID" />
+          </Key>
+          <Property Name="UrunID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UrunAdi" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Barkod" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="BirimFiyat" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="StokMiktari" Type="Int32" Nullable="false" />
+          <Property Name="KritikSeviye" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Alis" Relationship="Self.FK_Alis_Urun" FromRole="Urun" ToRole="Alis" />
+          <NavigationProperty Name="Satis" Relationship="Self.FK_Satis_Urun" FromRole="Urun" ToRole="Satis" />
+        </EntityType>
+        <Association Name="FK_Alis_Urun">
+          <End Role="Urun" Type="Self.Urun" Multiplicity="1" />
+          <End Role="Alis" Type="Self.Alis" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Urun">
+              <PropertyRef Name="UrunID" />
+            </Principal>
+            <Dependent Role="Alis">
+              <PropertyRef Name="UrunID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Kasiyer_Kasa">
+          <End Role="Kasa" Type="Self.Kasa" Multiplicity="1" />
+          <End Role="Kasiyer" Type="Self.Kasiyer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Kasa">
+              <PropertyRef Name="KasaID" />
+            </Principal>
+            <Dependent Role="Kasiyer">
+              <PropertyRef Name="KasaID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Satis_Kasa">
+          <End Role="Kasa" Type="Self.Kasa" Multiplicity="1" />
+          <End Role="Satis" Type="Self.Satis" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Kasa">
+              <PropertyRef Name="KasaID" />
+            </Principal>
+            <Dependent Role="Satis">
+              <PropertyRef Name="KasaID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Satis_Kasiyer">
+          <End Role="Kasiyer" Type="Self.Kasiyer" Multiplicity="1" />
+          <End Role="Satis" Type="Self.Satis" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Kasiyer">
+              <PropertyRef Name="KasiyerID" />
+            </Principal>
+            <Dependent Role="Satis">
+              <PropertyRef Name="KasiyerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Satis_Urun">
+          <End Role="Urun" Type="Self.Urun" Multiplicity="1" />
+          <End Role="Satis" Type="Self.Satis" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Urun">
+              <PropertyRef Name="UrunID" />
+            </Principal>
+            <Dependent Role="Satis">
+              <PropertyRef Name="UrunID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="deneme1Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Admin" EntityType="Self.Admin" />
+          <EntitySet Name="Alis" EntityType="Self.Alis" />
+          <EntitySet Name="Kasa" EntityType="Self.Kasa" />
+          <EntitySet Name="Kasiyer" EntityType="Self.Kasiyer" />
+          <EntitySet Name="Satis" EntityType="Self.Satis" />
+          <EntitySet Name="Urun" EntityType="Self.Urun" />
+          <AssociationSet Name="FK_Alis_Urun" Association="Self.FK_Alis_Urun">
+            <End Role="Urun" EntitySet="Urun" />
+            <End Role="Alis" EntitySet="Alis" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Kasiyer_Kasa" Association="Self.FK_Kasiyer_Kasa">
+            <End Role="Kasa" EntitySet="Kasa" />
+            <End Role="Kasiyer" EntitySet="Kasiyer" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Satis_Kasa" Association="Self.FK_Satis_Kasa">
+            <End Role="Kasa" EntitySet="Kasa" />
+            <End Role="Satis" EntitySet="Satis" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Satis_Kasiyer" Association="Self.FK_Satis_Kasiyer">
+            <End Role="Kasiyer" EntitySet="Kasiyer" />
+            <End Role="Satis" EntitySet="Satis" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Satis_Urun" Association="Self.FK_Satis_Urun">
+            <End Role="Urun" EntitySet="Urun" />
+            <End Role="Satis" EntitySet="Satis" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="deneme1ModelStoreContainer" CdmEntityContainer="deneme1Entities">
+          <EntitySetMapping Name="Admin">
+            <EntityTypeMapping TypeName="deneme1Model.Admin">
+              <MappingFragment StoreEntitySet="Admin">
+                <ScalarProperty Name="AdminID" ColumnName="AdminID" />
+                <ScalarProperty Name="KullaniciAdi" ColumnName="KullaniciAdi" />
+                <ScalarProperty Name="Sifre" ColumnName="Sifre" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Alis">
+            <EntityTypeMapping TypeName="deneme1Model.Alis">
+              <MappingFragment StoreEntitySet="Alis">
+                <ScalarProperty Name="AlisID" ColumnName="AlisID" />
+                <ScalarProperty Name="UrunID" ColumnName="UrunID" />
+                <ScalarProperty Name="Miktar" ColumnName="Miktar" />
+                <ScalarProperty Name="BirimFiyat" ColumnName="BirimFiyat" />
+                <ScalarProperty Name="AlisTarihi" ColumnName="AlisTarihi" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Kasa">
+            <EntityTypeMapping TypeName="deneme1Model.Kasa">
+              <MappingFragment StoreEntitySet="Kasa">
+                <ScalarProperty Name="KasaID" ColumnName="KasaID" />
+                <ScalarProperty Name="KasaAdi" ColumnName="KasaAdi" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Kasiyer">
+            <EntityTypeMapping TypeName="deneme1Model.Kasiyer">
+              <MappingFragment StoreEntitySet="Kasiyer">
+                <ScalarProperty Name="KasiyerID" ColumnName="KasiyerID" />
+                <ScalarProperty Name="Ad" ColumnName="Ad" />
+                <ScalarProperty Name="Soyad" ColumnName="Soyad" />
+                <ScalarProperty Name="KasaID" ColumnName="KasaID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Satis">
+            <EntityTypeMapping TypeName="deneme1Model.Satis">
+              <MappingFragment StoreEntitySet="Satis">
+                <ScalarProperty Name="SatisID" ColumnName="SatisID" />
+                <ScalarProperty Name="UrunID" ColumnName="UrunID" />
+                <ScalarProperty Name="KasiyerID" ColumnName="KasiyerID" />
+                <ScalarProperty Name="Miktar" ColumnName="Miktar" />
+                <ScalarProperty Name="BirimFiyat" ColumnName="BirimFiyat" />
+                <ScalarProperty Name="SatisTarihi" ColumnName="SatisTarihi" />
+                <ScalarProperty Name="KasaID" ColumnName="KasaID" />
+                <ScalarProperty Name="ToplamTutar" ColumnName="ToplamTutar" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Urun">
+            <EntityTypeMapping TypeName="deneme1Model.Urun">
+              <MappingFragment StoreEntitySet="Urun">
+                <ScalarProperty Name="UrunID" ColumnName="UrunID" />
+                <ScalarProperty Name="UrunAdi" ColumnName="UrunAdi" />
+                <ScalarProperty Name="Barkod" ColumnName="Barkod" />
+                <ScalarProperty Name="BirimFiyat" ColumnName="BirimFiyat" />
+                <ScalarProperty Name="StokMiktari" ColumnName="StokMiktari" />
+                <ScalarProperty Name="KritikSeviye" ColumnName="KritikSeviye" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

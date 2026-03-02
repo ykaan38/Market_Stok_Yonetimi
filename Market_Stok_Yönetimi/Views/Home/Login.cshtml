@@ -1,0 +1,176 @@
+﻿@{
+    ViewBag.Title = "Admin Giriş";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>@ViewBag.Title Market Yönetim </title>
+
+</head>
+<body>
+    <div class="login-container">
+        <h2>Market Yönetim Paneli</h2>
+
+        @using (Html.BeginForm("Login", "Home", FormMethod.Post))
+        {
+            <div class="form-group">
+                <label>Kullanıcı Adı</label>
+                <input type="text" name="kullaniciAdi" placeholder="admin" required />
+            </div>
+
+            <div class="form-group">
+                <label>Şifre</label>
+                <input type="password" name="sifre" placeholder="••••••••" required />
+            </div>
+
+            <button type="submit" class="login-btn">Giriş Yap</button>
+
+            if (ViewBag.Hata != null)
+            {
+                <p class="error-message">@ViewBag.Hata</p>
+            }
+        }
+    </div>
+</body>
+</html>
+
+
+
+
+
+
+<style>
+   
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        margin: 0;
+        padding: 0;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #333;
+        overflow: hidden;
+        position: relative;
+    }
+
+        body::before {
+            content: "";
+            background-image: url("https://watermark.lovepik.com/photo/20211119/large/lovepik-background-of-shopping-scene-in-shopping-malls-and-picture_500176929.jpg");
+            background-size: cover;
+            background-position: center;
+            filter: blur(3px);
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            right: -10px;
+            bottom: -10px;
+            z-index: -1;
+        }
+
+    .login-container {
+        background: rgba(255, 255, 255, 0.6);
+        border-radius: 10px;
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        width: 350px;
+        padding: 40px;
+        text-align: center;
+        animation: fadeIn 0.5s ease-in-out;
+        backdrop-filter: blur(8px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    h2 {
+        color: #4a4a4a;
+        margin-bottom: 30px;
+        font-weight: 600;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+        text-align: left;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 500;
+        color: #555;
+    }
+
+    input[type="text"],
+    input[type="password"] {
+        width: 100%;
+        padding: 12px;
+        border: 2px solid rgba(224, 224, 224, 0.7);
+        border-radius: 5px;
+        font-size: 14px;
+        transition: border 0.3s;
+        box-sizing: border-box;
+        background-color: rgba(255, 255, 255, 0.8);
+    }
+
+        input[type="text"]:focus,
+        input[type="password"]:focus {
+            border-color: #667eea;
+            outline: none;
+            background-color: rgba(255, 255, 255, 0.95);
+        }
+
+    .login-btn {
+        background: linear-gradient(to right, #667eea, #764ba2);
+        color: white;
+        border: none;
+        padding: 12px 20px;
+        width: 100%;
+        border-radius: 5px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s;
+        margin-top: 10px;
+        opacity: 0.9;
+    }
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            opacity: 1;
+        }
+
+    .error-message {
+        color: #ff4757;
+        margin-top: 15px;
+        font-size: 14px;
+        animation: shake 0.5s;
+    }
+
+    @@keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @@keyframes shake {
+        0%, 100% {
+            transform: translateX(0);
+        }
+
+        20%, 60% {
+            transform: translateX(-5px);
+        }
+
+        40%, 80% {
+            transform: translateX(5px);
+        }
+    }
+</style>

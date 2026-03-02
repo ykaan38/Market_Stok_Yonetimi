@@ -1,0 +1,301 @@
+﻿@model List<Market_Stok_Yönetimi.Model.KasiyerDTO>
+
+@{
+    ViewBag.Title = "Ana Sayfa";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="container-wrapper">
+    <div class="table-container">
+        <div class="table-header">
+            <h2>Kasiyer Listesi</h2>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Kasiyer Adı</th>
+                    <th>Bağlı Kasa</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (int i = 0; i < Model.Count; i++)
+                {
+                    var k = Model[i];
+                    <tr class="kasiyer-row" data-target="#detay-@i">
+                        <td class="kasiyer-id">@k.KasiyerID</td>
+                        <td>@k.Ad @k.Soyad</td>
+                        <td>
+                            @if (k.KasaID != null)
+                            {
+                                <span class="kasa-badge has-kasa">@k.KasaAdi</span>
+                            }
+                            else
+                            {
+                                <span class="kasa-badge no-kasa">Atanmadı</span>
+                            }
+                        </td>
+                    </tr>
+
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+
+
+
+
+<style>
+    :root {
+        --market-primary: #ba7c00;
+        --market-secondary: #FF9800;
+        --market-light: rgb(32, 32, 32);
+        --market-lighter: #F1F8E9;
+        --market-text: #ba7c00;
+        --market-border: #ba7c00;
+        --market-dark: #ba7c00;
+        --market-danger: #F44336;
+    }
+
+    body {
+        background-color: rgb(32, 32, 32);
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        color: white;
+    }
+
+    .container-wrapper {
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        min-height: 80vh;
+        padding: 30px 20px;
+    }
+
+    .table-container {
+        background-color: rgb(32, 32, 32);
+        border-radius: 12px;
+        box-shadow: 0 5px 15px #ba7c00;
+        border: 1px solid #ba7c00;
+        width: 100%;
+        max-width: 900px;
+        overflow: hidden;
+        transition: all 0.3s ease;
+        color: white;
+    }
+
+        .table-container:hover {
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+        }
+
+    .table-header {
+        background: linear-gradient(135deg, var(--market-primary), var(--market-dark));
+        color: white;
+        padding: 18px 25px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+        .table-header h2 {
+            margin: 0;
+            font-weight: 600;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+    .table-header-actions {
+        display: flex;
+        gap: 10px;
+    }
+
+    .btn {
+        padding: 8px 16px;
+        border-radius: 6px;
+        font-weight: 500;
+        text-decoration: none;
+        font-size: 0.9rem;
+        transition: all 0.2s;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+    .btn-primary {
+        background-color: white;
+        color: var(--market-primary);
+        border: 1px solid white;
+    }
+
+        .btn-primary:hover {
+            background-color: transparent;
+            color: white;
+        }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    thead {
+        background-color: var(--market-light);
+        position: sticky;
+        top: 0;
+    }
+
+    th {
+        padding: 14px 16px;
+        text-align: center;
+        color: white;
+        font-weight: 600;
+        border-bottom: 2px solid var(--market-border);
+        font-size: 0.95rem;
+    }
+
+    td {
+        padding: 14px 16px;
+        text-align: center;
+        border-bottom: 1px solid var(--market-border);
+        font-size: 0.92rem;
+    }
+
+    tbody tr:hover {
+        background-color: rgba(141, 141, 141, 0.1);
+        cursor: pointer;
+    }
+
+    .kasiyer-id {
+        font-weight: 600;
+        color: white;
+    }
+
+    .kasa-badge {
+        display: inline-block;
+        color: white;
+        padding: 5px 12px;
+        border-radius: 15px;
+        font-size: 0.85em;
+        font-weight: 500;
+        min-width: 80px;
+        text-align: center;
+    }
+
+    .has-kasa {
+        background-color: var(--market-light);
+        color: white;
+        border: 1px solid white;
+    }
+
+    .no-kasa {
+        background-color: #FFEBEE;
+        color: var(--market-danger);
+        border: 1px solid #EF9A9A;
+    }
+
+    .detail-row {
+        display: none;
+        background-color: #f8fdf8;
+        font-size: 0.95em;
+    }
+
+        .detail-row td {
+            text-align: left;
+            padding: 20px 40px;
+            color: #444;
+            line-height: 1.6;
+        }
+
+    .detail-content {
+        display: flex;
+        gap: 30px;
+        flex-wrap: wrap;
+    }
+
+    .detail-section {
+        flex: 1;
+        min-width: 200px;
+    }
+
+        .detail-section h4 {
+            margin-top: 0;
+            color: var(--market-primary);
+            font-size: 1rem;
+            border-bottom: 1px dashed var(--market-border);
+            padding-bottom: 5px;
+        }
+
+    .detail-item {
+        margin-bottom: 8px;
+        display: flex;
+    }
+
+    .detail-label {
+        font-weight: 500;
+        min-width: 100px;
+        color: var(--market-text);
+    }
+
+    .detail-value {
+        flex: 1;
+    }
+
+    .action-buttons {
+        display: flex;
+        gap: 8px;
+        margin-top: 15px;
+    }
+
+    .btn-sm {
+        padding: 5px 10px;
+        font-size: 0.8rem;
+        border-radius: 4px;
+    }
+
+    .btn-edit {
+        background-color: var(--market-secondary);
+        color: white;
+        border: 1px solid var(--market-secondary);
+    }
+
+        .btn-edit:hover {
+            background-color: #E65100;
+            border-color: #E65100;
+        }
+
+    .btn-assign {
+        background-color: var(--market-primary);
+        color: white;
+        border: 1px solid var(--market-primary);
+    }
+
+        .btn-assign:hover {
+            background-color: var(--market-dark);
+            border-color: var(--market-dark);
+        }
+
+    @@media (max-width: 768px) {
+        .table-header {
+            flex-direction: column;
+            gap: 10px;
+            align-items: flex-start;
+        }
+
+        .table-header-actions {
+            width: 100%;
+            justify-content: flex-end;
+        }
+
+        .detail-content {
+            flex-direction: column;
+            gap: 15px;
+        }
+    }
+</style>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+

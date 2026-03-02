@@ -1,0 +1,350 @@
+﻿@{
+    ViewBag.Title = "Ana Sayfa";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="dashboard">
+
+    <div class="card-container">
+
+        <div class="card stock-card">
+            <div class="card-header">
+                <h3>Azalan Stoklar</h3>
+                <span class="badge">@ViewBag.AzalanStoklar.Count Ürün</span>
+            </div>
+            <div class="card-body">
+                @if (ViewBag.AzalanStoklar != null && ViewBag.AzalanStoklar.Count > 0)
+                {
+                    <script>
+                        alert("Azalan Ürün Mevcut");
+                    </script>
+                }
+                <ul class="stock-list">
+                    @foreach (var urun in ViewBag.AzalanStoklar)
+                    {
+                        <li class="@(urun.StokMiktari < 5 ? "critical" : urun.StokMiktari < 15 ? "warning" : "")">
+                            <span class="product-name">@urun.UrunAdi</span>
+                            <span class="stock-amount">@urun.StokMiktari adet</span>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+
+        <div class="card sales-card">
+            <div class="card-header">
+                <h3>Son Satışlar</h3>
+                <span class="badge">@ViewBag.SonSatislar.Count Kayıt</span>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Ürün</th>
+                                <th>Adet</th>
+                                <th>Fiyat</th>
+                                <th>Tarih</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var satis in ViewBag.SonSatislar)
+                            {
+                                <tr>
+                                    <td>@satis.UrunAdi</td>
+                                    <td>@satis.Miktar</td>
+                                    <td class="price">@($"{satis.BirimFiyat:0.00} ₺")</td>
+                                    <td>@satis.SatisTarihi.ToString("dd.MM.yyyy")</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="card purchase-card">
+            <div class="card-header">
+                <h3>Son Alışlar</h3>
+                <span class="badge">@ViewBag.SonAlislar.Count Kayıt</span>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Ürün</th>
+                                <th>Adet</th>
+                                <th>Fiyat</th>
+                                <th>Tarih</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var alis in ViewBag.SonAlislar)
+                            {
+                                <tr>
+                                    <td>@alis.UrunAdi</td>
+                                    <td>@alis.Miktar</td>
+                                    <td class="price">@($"{alis.BirimFiyat:0.00} ₺")</td>
+                                    <td>@alis.AlisTarihi.ToString("dd.MM.yyyy")</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="quick-actions">
+        <a href="@Url.Action("Create", "Home")" class="btn btn-primary">
+            Yeni Ürün Ekle
+        </a>
+        <a href="@Url.Action("Urunler", "Home")" class="btn btn-secondary">
+            Tüm Ürünler
+        </a>
+        <a href="@Url.Action("Satislar", "Home")" class="btn btn-tertiary">
+            Satış Geçmişi
+        </a>
+    </div>
+</div>
+
+
+
+
+<style>
+    :root {
+        --primary: #FFA500; 
+        --primary-dark: #CC8400;
+        --secondary: #4CAF50; 
+        --tertiary: #2196F3; 
+        --dark-bg: #1E1E1E;
+        --card-bg: #2D2D2D;
+        --text-light: #FFFFFF;
+        --text-muted: #B0B0B0;
+        --border-color: rgba(255, 165, 0, 0.2);
+        --critical: #FF5252;
+        --warning: #FFC107;
+        --success: #4CAF50;
+    }
+
+    body {
+        background-color: var(--dark-bg);
+        color: var(--text-light);
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        line-height: 1.6;
+    }
+
+    .dashboard {
+        padding: 2rem;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    h2 {
+        color: var(--primary);
+        margin-bottom: 1.5rem;
+        font-size: 1.8rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 2px solid var(--primary);
+        display: inline-block;
+    }
+
+    .card-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+    }
+
+    .card {
+        background: var(--card-bg);
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        overflow: hidden;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+        }
+
+    .card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem 1.5rem;
+        background: rgba(255, 165, 0, 0.1);
+        border-bottom: 1px solid var(--border-color);
+    }
+
+        .card-header h3 {
+            margin: 0;
+            color: var(--primary);
+            font-size: 1.2rem;
+        }
+
+    .badge {
+        background: var(--primary);
+        color: #000;
+        padding: 0.25rem 0.75rem;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: bold;
+    }
+
+    .card-body {
+        padding: 1.5rem;
+    }
+
+    .stock-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+        .stock-list li {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+            .stock-list li:last-child {
+                border-bottom: none;
+            }
+
+    .product-name {
+        color: var(--text-light);
+    }
+
+    .stock-amount {
+        font-weight: bold;
+    }
+
+    .critical {
+        color: var(--critical);
+        animation: pulse 1.5s infinite;
+    }
+
+    .warning {
+        color: var(--warning);
+    }
+
+    .table-responsive {
+        overflow-x: auto;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 0.5rem;
+    }
+
+    th {
+        background: rgba(255, 165, 0, 0.1);
+        color: var(--primary);
+        padding: 0.75rem;
+        text-align: left;
+        font-weight: 600;
+    }
+
+    td {
+        padding: 0.75rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        color: var(--text-light);
+    }
+
+    tr:hover td {
+        background: rgba(255, 165, 0, 0.05);
+    }
+
+    .price {
+        color: var(--primary);
+        font-weight: bold;
+    }
+
+    .quick-actions {
+        display: flex;
+        gap: 1rem;
+        margin-top: 2rem;
+        flex-wrap: wrap;
+    }
+
+    .btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.8rem 1.5rem;
+        color: #000;
+        text-decoration: none;
+        border-radius: 6px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        border: none;
+        cursor: pointer;
+    }
+
+    .btn-primary {
+        background: var(--primary);
+    }
+
+    .btn-secondary {
+        background: var(--secondary);
+    }
+
+    .btn-tertiary {
+        background: var(--tertiary);
+    }
+
+    .btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .btn-primary:hover {
+        background: #FF8C00;
+    }
+
+    .btn-secondary:hover {
+        background: #3E8E41;
+    }
+
+    .btn-tertiary:hover {
+        background: #0D8BF2;
+    }
+
+    .icon {
+        font-size: 1.1rem;
+    }
+
+    @@keyframes pulse {
+        0% {
+            opacity: 1;
+        }
+
+        50% {
+            opacity: 0.6;
+        }
+
+        100% {
+            opacity: 1;
+        }
+    }
+
+    @@media (max-width: 768px) {
+        .card-container {
+            grid-template-columns: 1fr;
+        }
+
+        .quick-actions {
+            flex-direction: column;
+        }
+
+        .btn {
+            justify-content: center;
+        }
+    }
+</style>
